@@ -13,11 +13,12 @@ def get_img():
         get_img()
 
 class Pocemon:
-
+    pocemons = {}
     # Инициализация объекта (конструктор)
     def __init__(self, name):
         self.name = name    # Поле или атрибут класса
         self.img = get_img()
+        Pocemon.pocemons[name] = self
 
     # Метод класса для получения информации
     def info(self):
