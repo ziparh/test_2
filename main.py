@@ -6,7 +6,7 @@ from logic import Pokemon
 bot = telebot.TeleBot(token) 
 
 @bot.message_handler(commands=['go'])
-def start(message):
+def go(message):
     if message.from_user.username not in Pokemon.pokemons.keys():
         pokemon = Pokemon(message.from_user.username)
         bot.send_message(message.chat.id, pokemon.info())
