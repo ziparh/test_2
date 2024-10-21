@@ -54,13 +54,16 @@ class Pokemon:
         while self.is_alive() and enemy.is_alive():
             if isinstance(enemy, Fighter) or isinstance(self, Wizard):
                 if isinstance(enemy, Fighter):
-                    if randint(1, 3) == 1:
+                    if randint(1, 4) == 1:
                         result.append(f"{enemy.name} блокирует атаку {self.name}!")
-                else:
-                    if randint(1, 3) == 1:
-                        super_attack = self.attack_power * 2
-                        enemy.health_point -= super_attack
-                        result.append(f"{self.name} выпустил огненный шар, у {enemy.name} осталось {enemy.health_point} хп.")
+                    elif isinstance(self, Wizard):
+                        if randint(1, 2) == 1:
+                            super_attack = self.attack_power * 2
+                            enemy.health_point -= super_attack
+                            result.append(f"{self.name} выпустил огненный шар, у {enemy.name} осталось {enemy.health_point} хп.")
+                        else: 
+                            enemy.health_point -= self.attack_power
+                            result.append(f"{self.name} атакует {enemy.name}, у {enemy.name} осталось {enemy.health_point} хп.")
             else: 
                 enemy.health_point -= self.attack_power
                 result.append(f"{self.name} атакует {enemy.name}, у {enemy.name} осталось {enemy.health_point} хп.")
@@ -68,13 +71,16 @@ class Pokemon:
             if enemy.is_alive():
                 if isinstance(self, Fighter) or isinstance(enemy, Wizard):    
                     if isinstance(self, Fighter):
-                        if randint(1, 3) == 1:
+                        if randint(1, 4) == 1:
                             result.append(f"{self.name} блокирует атаку {enemy.name}!")
-                    else: 
-                        if randint(1, 3) == 1:
-                            super_attack = enemy.attack_power * 2
-                            self.health_point -= super_attack
-                            result.append(f"{enemy.name} выпустил огненный шар, у {self.name} осталось {self.health_point} хп.")
+                        elif isinstance(enemy, Wizard):
+                            if randint(1, 2) == 1:
+                                super_attack = enemy.attack_power * 2
+                                self.health_point -= super_attack
+                                result.append(f"{enemy.name} выпустил огненный шар, у {self.name} осталось {self.health_point} хп.")
+                            else: 
+                                self.health_point -= enemy.attack_power
+                                result.append(f"{enemy.name} атакует {self.name}, у {self.name} осталось {self.health_point} хп.")
                 else: 
                     self.health_point -= enemy.attack_power
                     result.append(f"{enemy.name} атакует {self.name}, у {self.name} осталось {self.health_point} хп.")
@@ -113,14 +119,14 @@ class Pokemon:
 class Wizard(Pokemon):
     def __init__(self):
         super().__init__()
-        self.health_point = randint(50, 100) 
+        self.health_point = randint(100, 150) 
         self.attack_power = randint(10, 20)
 
 
 class Fighter(Pokemon):
     def __init__(self):
         super().__init__()
-        self.health_point = randint(100, 200)
+        self.health_point = randint(150, 200)
         self.attack_power = randint(5, 10)
 
 
