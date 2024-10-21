@@ -52,32 +52,32 @@ class Pokemon:
         result.append("")
 
         while self.is_alive() and enemy.is_alive():
-            if isinstance(enemy, Fighter):
-                if randint(1, 3) == 1:
-                    result.append(f"{enemy.name} блокирует атаку {self.name}!")
-                else: 
-                    if isinstance(self, Wizard):
-                        if randint(1, 3) == 1:
-                            super_attack = self.attack_power * 2
-                            enemy.health_point -= super_attack
-                            result.append(f"{self.name} выпустил огненный шар, у {enemy.name} осталось {enemy.health_point} хп.")
-                        else: 
-                            enemy.health_point -= self.attack_power
-                            result.append(f"{self.name} атакует {enemy.name}, у {enemy.name} осталось {enemy.health_point} хп.")
+            if isinstance(enemy, Fighter) or isinstance(self, Wizard):
+                if isinstance(enemy, Fighter):
+                    if randint(1, 3) == 1:
+                        result.append(f"{enemy.name} блокирует атаку {self.name}!")
+                else:
+                    if randint(1, 3) == 1:
+                        super_attack = self.attack_power * 2
+                        enemy.health_point -= super_attack
+                        result.append(f"{self.name} выпустил огненный шар, у {enemy.name} осталось {enemy.health_point} хп.")
+            else: 
+                enemy.health_point -= self.attack_power
+                result.append(f"{self.name} атакует {enemy.name}, у {enemy.name} осталось {enemy.health_point} хп.")
 
-        if enemy.is_alive():
-            if isinstance(self, Fighter):
-                if randint(1, 3) == 1:
-                    result.append(f"{self.name} блокирует атаку {enemy.name}!")
-                else: 
-                    if isinstance(enemy, Wizard):
+            if enemy.is_alive():
+                if isinstance(self, Fighter) or isinstance(enemy, Wizard):    
+                    if isinstance(self, Fighter):
+                        if randint(1, 3) == 1:
+                            result.append(f"{self.name} блокирует атаку {enemy.name}!")
+                    else: 
                         if randint(1, 3) == 1:
                             super_attack = enemy.attack_power * 2
                             self.health_point -= super_attack
                             result.append(f"{enemy.name} выпустил огненный шар, у {self.name} осталось {self.health_point} хп.")
-                        else: 
-                            self.health_point -= enemy.attack_power
-                            result.append(f"{enemy.name} атакует {self.name}, у {self.name} осталось {self.health_point} хп.")
+                else: 
+                    self.health_point -= enemy.attack_power
+                    result.append(f"{enemy.name} атакует {self.name}, у {self.name} осталось {self.health_point} хп.")
                     
         if self.is_alive():
              result.append(f"{self.name} побеждает!")
