@@ -6,15 +6,15 @@ import requests
 class Pokemon:
     pokemons = {}
     # Инициализация объекта (конструктор)
-    def __init__(self):
+    def __init__(self, pokemon_trainer):
         self.health_point = randint(50, 100) 
         self.attack_power = randint(10, 20)
 
         self.pokemon_number = randint(1, 1000)
         self.img = self.get_img()
         self.name = self.get_name()
-        #self.pokemon_trainer = pokemon_trainer 
-        #Pokemon.pokemons[pokemon_trainer] = self
+        self.pokemon_trainer = pokemon_trainer 
+        Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
     def get_img(self):
@@ -117,15 +117,15 @@ class Pokemon:
             return False
 
 class Wizard(Pokemon):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, pokemon_trainer):
+        super().__init__(pokemon_trainer)
         self.health_point = randint(100, 150) 
         self.attack_power = randint(10, 20)
 
 
 class Fighter(Pokemon):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, pokemon_trainer):
+        super().__init__(pokemon_trainer)
         self.health_point = randint(150, 200)
         self.attack_power = randint(5, 10)
 
