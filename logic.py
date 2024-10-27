@@ -1,14 +1,20 @@
 from random import randint
-
 import requests
+from datetime import datetime, timedelta
+from typing import Optional
 
 
 class Pokemon:
     pokemons = {}
     # Инициализация объекта (конструктор)
     def __init__(self, pokemon_trainer):
-        self.health_point = randint(50, 100) 
-        self.attack_power = randint(10, 20)
+        self.base_health_point = 1
+        self.base_attack_power = 1
+        self.health_point = self.base_health_point
+        self.attack_power = self.base_attack_power
+        self.last_feed_time = datetime.now()
+        self.feed_interval: int
+        self.hp_increase: int
 
         self.pokemon_number = randint(1, 1000)
         self.img = self.get_img()
@@ -43,7 +49,21 @@ class Pokemon:
 
     # Метод класса для получения картинки покемона
     def show_img(self):
-        return self.img    
+        return self.img   
+
+
+    def feed(self):
+        current_time = datetime.now()  
+        delta_time = timedelta(seconds=self.feed_interval)
+        if self.health_point < self.base_health_point:
+            if (current_time - self.last_feed_time) > delta_time:
+                self.health_point += self.hp_increase
+                self.last_feed_time = current_time
+                return f"Здоровье покемона увеличено. Текущее здоровье: {self.health_point}"
+            else:
+                return f"Следующее время кормления покемона: {current_time+delta_time}"  
+        else:
+            return "У вас уже максимальное количество хп"
 
 
     def fight(self, enemy):
@@ -119,15 +139,23 @@ class Pokemon:
 class Wizard(Pokemon):
     def __init__(self, pokemon_trainer):
         super().__init__(pokemon_trainer)
-        self.health_point = randint(100, 150) 
-        self.attack_power = randint(10, 20)
-
+        self.base_health_point = randint(150, 200)
+        self.base_attack_power = randint(5, 10)
+        self.health_point = self.base_health_point - 100
+        self.attack_power = self.base_attack_power
+        self.feed_interval = 20
+        self.hp_increase = 15
 
 class Fighter(Pokemon):
     def __init__(self, pokemon_trainer):
         super().__init__(pokemon_trainer)
-        self.health_point = randint(150, 200)
-        self.attack_power = randint(5, 10)
+        self.base_health_point = randint(150, 200) - 50
+        self.base_attack_power = randint(5, 10)
+        self.health_point = self.base_health_point
+        self.attack_power = self.base_attack_power
+        self.feed_interval = 20
+        self.hp_increase = 10
+
 
 
 if __name__ == '__main__':
